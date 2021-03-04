@@ -1,0 +1,103 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+$color-danger: #eb445a;
+
+@for $fz from 1 through 20 {
+  .fz-#{($fz*10 / 2)} {
+    font-size: $fz * (10px)/2;
+  }
+}
+
+@for $m from 1 through 20 {
+  .m-#{($m*10 / 2)} {
+    margin: $m * (10px)/2;
+  }
+}
+
+@for $p from 1 through 20 {
+  .p-#{($p*10 / 2)} {
+    padding: $p * (10px)/2;
+  }
+}
+
+@for $mt from 1 through 20 {
+  .mt-#{($mt*10 / 2)} {
+    margin-top: $mt * (10px)/2;
+  }
+}
+
+@for $mr from 1 through 20 {
+  .mr-#{($mr*10/2)} {
+    margin-right: $mr * (10px)/2;
+  }
+}
+
+@for $mb from 1 through 20 {
+  .mb-#{($mb*10/2)} {
+    margin-bottom: $mb * (10px)/2;
+  }
+}
+
+@for $ml from 1 through 20 {
+  .ml-#{($ml*10/2)} {
+    margin-left: $ml * (10px)/2;
+  }
+}
+
+@for $pt from 1 through 20 {
+  .pt-#{($pt*10/2)} {
+    padding-top: $pt * (10px)/2;
+  }
+}
+
+@for $pr from 1 through 20 {
+  .pr-#{($pr*10/2)} {
+    padding-right: $pr * (10px)/2;
+  }
+}
+
+@for $pb from 1 through 20 {
+  .pb-#{($pb*10/2)} {
+    padding-bottom: $pb * (10px)/2;
+  }
+}
+
+@for $pl from 1 through 20 {
+  .pl-#{($pl*10/2)} {
+    padding-left: $pl * (10px)/2;
+  }
+}
+
+.error-label {
+  color: $color-danger !important;
+}
+.err-text {
+  font-size: 12px;
+  color: $color-danger;
+  margin: 10px;
+}

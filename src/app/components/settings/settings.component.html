@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Settings </ion-title>
+    <ion-icon
+      (click)="closeModal()"
+      slot="end"
+      class="fz-25 mr-10"
+      name="close-circle-outline"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="m-15" *ngIf="settingsForm">
+    <form [formGroup]="settingsForm" (ngSubmit)="onSettingFormSubmit()">
+      <ion-item>
+        <ion-label position="fixed">Insurance</ion-label>
+        <ion-input
+          formControlName="insurance"
+          autofocus="true"
+          pkNumeric
+          decimals="2"
+          type="tel"
+        ></ion-input>
+        <span>%</span>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed">Saving</ion-label>
+        <ion-input
+          formControlName="saving"
+          pkNumeric
+          decimals="2"
+          type="tel"
+        ></ion-input>
+        <span>%</span>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="fixed">GST</ion-label>
+        <ion-input
+          formControlName="gst"
+          pkNumeric
+          decimals="2"
+          type="tel"
+        ></ion-input>
+        <span>%</span>
+      </ion-item>
+
+      <ion-button
+        type="submit"
+        class="mt-20"
+        shape="round"
+        fill="outline"
+        expand="block"
+      >
+        Save
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
