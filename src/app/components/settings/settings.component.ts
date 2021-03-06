@@ -34,9 +34,8 @@ export class SettingsComponent implements OnInit {
 
   initSettingsForm(): void {
     this.settingsForm = this.fb.group({
-      insurance: [null, [Validators.required]],
-      saving: [null, [Validators.required]],
-      gst: [null, [Validators.required]],
+      saving: [0, [Validators.required]],
+      gst: [0, [Validators.required]],
     });
   }
 

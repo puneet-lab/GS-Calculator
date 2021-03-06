@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Settings </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title size="large"> {{ 'Settings' | translate }} </ion-title>
     <ion-icon
       (click)="closeModal()"
       slot="end"
@@ -14,19 +14,7 @@
   <div class="m-15" *ngIf="settingsForm">
     <form [formGroup]="settingsForm" (ngSubmit)="onSettingFormSubmit()">
       <ion-item>
-        <ion-label position="fixed">Insurance</ion-label>
-        <ion-input
-          formControlName="insurance"
-          autofocus="true"
-          pkNumeric
-          decimals="2"
-          type="tel"
-        ></ion-input>
-        <span>%</span>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="fixed">Saving</ion-label>
+        <ion-label position="fixed">{{ 'Savings' | translate }}</ion-label>
         <ion-input
           formControlName="saving"
           pkNumeric
@@ -53,8 +41,10 @@
         shape="round"
         fill="outline"
         expand="block"
+        size="large"
+        color="secondary"
       >
-        Save
+        {{ 'Save' | translate }}
       </ion-button>
     </form>
   </div>
