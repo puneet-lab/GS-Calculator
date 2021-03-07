@@ -1,10 +1,9 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary" class="pb-10" (click)="closeModal()">
     <ion-title size="large"> {{ 'Settings' | translate }} </ion-title>
     <ion-icon
-      (click)="closeModal()"
       slot="end"
-      class="fz-25 mr-10"
+      class="fz-35 mr-10"
       name="close-circle-outline"
     ></ion-icon>
   </ion-toolbar>
@@ -19,7 +18,9 @@
           formControlName="saving"
           pkNumeric
           decimals="2"
-          type="tel"
+          type="number"
+          pattern="[0-9]*"
+          inputmode="numeric"
         ></ion-input>
         <span>%</span>
       </ion-item>
@@ -30,7 +31,9 @@
           formControlName="gst"
           pkNumeric
           decimals="2"
-          type="tel"
+          type="number"
+          pattern="[0-9]*"
+          inputmode="numeric"
         ></ion-input>
         <span>%</span>
       </ion-item>
@@ -42,7 +45,7 @@
         fill="outline"
         expand="block"
         size="large"
-        color="secondary"
+        color="primary"
       >
         {{ 'Save' | translate }}
       </ion-button>

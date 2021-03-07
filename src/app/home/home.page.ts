@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
   calcGST = 0;
   totalWithTransport = 0;
   totalPrice = 0;
+  isValid = true;
   constructor(
     private modalCtrl: ModalController,
     private sharedService: SharedService,
@@ -47,10 +48,12 @@ export class HomePage implements OnInit {
     this.calcForm.valueChanges
       .pipe(
         tap((calcValues: ICalculatorFormValues) => {
-          const isValid = this.validateCalcFormFields(calcValues);
-          if (isValid) {
+          this.isValid = this.validateCalcFormFields(calcValues);
+          if (this.isValid) {
             calcValues = this.initCalculatorFormValues(calcValues);
             this.performCalculation(calcValues);
+          } else {
+            this.resetVariables();
           }
         }),
         catchError(() => {
@@ -69,7 +72,7 @@ export class HomePage implements OnInit {
       this.totalPrice * this.calculatePercentage(this.savingPercent);
     this.calcGST =
       (this.totalPrice + this.calcSaving) *
-      this.calculatePercentage(this.calcSaving);
+      this.calculatePercentage(this.gstPercent);
     this.sellingPrice = this.totalPrice + this.calcSaving + this.calcGST;
   }
 
@@ -92,7 +95,10 @@ export class HomePage implements OnInit {
     for (const key in calcValues) {
       const val = calcValues[key];
       isValidWholeNumber = !isNaN(val) && val >= 0;
-      if (!isValidWholeNumber) break;
+      if (!isValidWholeNumber) {
+        this.calcForm.get(key).setErrors({ notNumber: true });
+        break;
+      }
     }
     return isValidWholeNumber;
   }
@@ -109,9 +115,25 @@ export class HomePage implements OnInit {
   async openSettingsModal(): Promise<void> {
     const modal = await this.modalCtrl.create({ component: SettingsComponent });
     void modal.present();
-    modal
-      .onDidDismiss()
-      .finally(async () => await this.setCalcDefaultPercent());
+    modal.onDidDismiss().finally(async () => {
+      this.savingPercent = 0;
+      this.gstPercent = 0;
+      this.resetForm();
+      this.resetVariables();
+      await this.setCalcDefaultPercent();
+    });
+  }
+
+  resetVariables(): void {
+    this.sellingPrice = 0;
+    this.calcSaving = 0;
+    this.calcGST = 0;
+    this.totalWithTransport = 0;
+    this.totalPrice = 0;
+  }
+
+  resetForm(): void {
+    this.calcForm.reset();
   }
 
   changeLanguage(): void {
@@ -121,6 +143,6 @@ export class HomePage implements OnInit {
         ? LanguageTypes.ENGLISH
         : LanguageTypes.HINDI;
 
-    const setLanguage = this.sharedService.setLanguage(switchLanguage);
+    this.sharedService.setLanguage(switchLanguage);
   }
 }

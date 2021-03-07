@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   patchSettingForm(calcSettings: ICalculatorPercentageSettings): void {
     if (!isEmpty(calcSettings)) {
       Object.entries(calcSettings).forEach(([key, val]) =>
-        this.settingsForm.get(key).patchValue(val || 0)
+        this.settingsForm?.get(key)?.patchValue(val || 0)
       );
     }
   }
@@ -39,8 +39,8 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  closeModal(): void {
-    void this.modalCtrl.dismiss();
+  async closeModal(): Promise<void> {
+    await this.modalCtrl.dismiss();
   }
 
   onSettingFormSubmit() {

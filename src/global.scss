@@ -29,6 +29,7 @@ $color-danger: #eb445a;
 $color-primary: #3880ff;
 $color-tertiary: #5260ff;
 $color-secondary: #3dc2ff;
+$color-white: white;
 
 :root {
   ion-input,
@@ -42,6 +43,11 @@ $color-secondary: #3dc2ff;
     font-size: 1.4rem !important;
   }
 }
+
+.color-white {
+  color: $color-white;
+}
+
 .item-inner {
   border-bottom-width: 0px !important;
 }
@@ -60,6 +66,10 @@ $color-secondary: #3dc2ff;
 
 .justify-end {
   justify-content: flex-end;
+}
+
+.bg-white {
+  background-color: $color-white;
 }
 
 @for $fz from 1 through 20 {

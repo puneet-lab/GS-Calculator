@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingsModule } from '../components/settings/settings.module';
+import { NumericModule } from '../directives/numeric.module';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 
@@ -14,6 +15,7 @@ import { HomePage } from './home.page';
     IonicModule,
     HomePageRoutingModule,
     SettingsModule,
+    NumericModule,
     ReactiveFormsModule,
     TranslateModule,
   ],

@@ -1,105 +1,138 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title size="large"> GS/GT Calculator </ion-title>
+  <ion-toolbar color="primary" class="">
+    <ion-title class="pt-10 pb-10" size="large"> GS/GT Calculator </ion-title>
+
     <ion-icon
-      slot="end"
-      class="fz-25 mr-10"
-      name="language-outline"
-      (click)="changeLanguage()"
-    ></ion-icon>
-    <ion-icon
-      class="fz-25 mr-10"
+      (click)="openSettingsModal()"
+      class="fz-35 color-white mr-5"
       name="cog-outline"
       slot="end"
-      (click)="openSettingsModal()"
     ></ion-icon>
+
+    <ion-icon
+      class="fz-35 color-white mr-5"
+      (click)="changeLanguage()"
+      slot="end"
+      name="language-outline"
+    ></ion-icon>
+
+    <!-- <div class="flex justify-end"> 
+    <ion-buttons left>
+      <button
+        ion-button
+        icon-only
+        clear
+        item-right
+        (click)="openSettingsModal()"
+      >
+        <ion-icon class="fz-35 color-white" name="cog-outline"></ion-icon>
+      </button>
+
+      <button ion-button icon-only clear item-right (click)="changeLanguage()">
+        <ion-icon class="fz-35 color-white" name="language-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+   </div> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="calculation-container pb-10">
+  <div class="calculation-container">
     <div class="flex justify-around">
-      <ion-card
-        class="border-top-secondary p-10 m-10"
-        (click)="openSettingsModal()"
-      >
-        <ion-label
-          >{{ 'Savings' | translate }}: {{this.savingPercent}} %
-        </ion-label>
-        <div class="mt-10 flex justify-end">
-          <ion-label>₹ {{calcSaving.toFixed(2)}} </ion-label>
-        </div>
+      <ion-card class="border-top-secondary" (click)="openSettingsModal()">
+        <ion-card-header>
+          <ion-label
+            >{{ 'Savings' | translate }}: {{this.savingPercent}} %</ion-label
+          >
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="flex justify-end">
+            <ion-label>₹ {{calcSaving.toFixed(2)}} </ion-label>
+          </div>
+        </ion-card-content>
       </ion-card>
 
-      <ion-card
-        class="border-top-secondary p-10 m-10"
-        (click)="openSettingsModal()"
-      >
-        <ion-label>{{ 'GST' | translate }}: {{this.gstPercent}} % </ion-label>
-        <div class="mt-10 flex justify-end">
-          <ion-label>₹ {{calcGST.toFixed(2)}}</ion-label>
-        </div>
+      <ion-card class="border-top-secondary" (click)="openSettingsModal()">
+        <ion-card-header>
+          <ion-label>{{ 'GST' | translate }}: {{this.gstPercent}} %</ion-label>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="flex justify-end">
+            <ion-label>₹ {{calcGST.toFixed(2)}}</ion-label>
+          </div>
+        </ion-card-content>
       </ion-card>
     </div>
 
     <div class="flex justify-around">
       <ion-card
-        class="border-top-secondary p-10 m-10"
+        class="border-top-secondary"
         (click)="openSettingsModal()"
-        color="primary"
+        [color]="isValid ?  'primary' : 'danger'"
       >
-        <ion-label
-          >{{ 'Selling Price' | translate }}: ₹ {{sellingPrice.toFixed(2)}}
-        </ion-label>
+        <ion-card-header>
+          <ion-label
+            >{{ 'Selling Price' | translate }}: ₹
+            {{sellingPrice.toFixed(2)}}</ion-label
+          >
+        </ion-card-header>
       </ion-card>
     </div>
   </div>
 
-  <div class="m-5 mt-10 p-5" *ngIf="calcForm">
+  <div class="m-5 p-5" *ngIf="calcForm">
     <div>
       <form [formGroup]="calcForm">
-        <ion-item>
-          <ion-label position="floating">{{'Buy Price' | translate}}</ion-label>
+        <ion-item color="light">
+          <ion-label color="primary" position="floating"
+            >{{'Buy Price' | translate}}</ion-label
+          >
           <ion-input
             formControlName="buy_price"
             pkNumeric
             decimals="2"
-            type="tel"
+            type="number"
+            inputmode="numeric"
+            autofocus
           ></ion-input>
         </ion-item>
-        <div class="flex">
+        <div class="flex mt-10">
           <div>
-            <ion-item class="mr-5">
-              <ion-label position="floating"
+            <ion-item class="mr-5" color="light">
+              <ion-label position="floating" color="primary"
                 >{{'Transport' | translate}}</ion-label
               >
               <ion-input
                 formControlName="transport"
                 pkNumeric
                 decimals="2"
-                type="tel"
+                type="number"
+                inputmode="numeric"
               ></ion-input>
             </ion-item>
-            <p class="ml-5">
+            <ion-note class="ml-5" color="primary">
               {{'Total' | translate}}: {{this.totalWithTransport.toFixed(2)}}
-            </p>
+            </ion-note>
           </div>
 
           <div>
-            <ion-item class="ml-5">
-              <ion-label position="floating"
+            <ion-item class="ml-5" color="light">
+              <ion-label position="floating" color="primary"
                 >{{'Insurance' | translate}}</ion-label
               >
               <ion-input
                 formControlName="insurance"
                 pkNumeric
                 decimals="2"
-                type="tel"
+                type="number"
+                inputmode="numeric"
               ></ion-input>
             </ion-item>
-            <p class="ml-5">
+            <ion-note class="ml-5" color="primary">
               {{'Total' | translate}}: {{this.totalPrice.toFixed(2)}}
-            </p>
+            </ion-note>
           </div>
         </div>
       </form>
