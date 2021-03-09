@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { isEmpty } from 'lodash';
-import { ICalculatorPercentageSettings } from 'src/app/models/app.model';
+import {
+  ICalculatorPercentageSettings,
+  ICurrencyList,
+} from 'src/app/models/app.model';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -14,9 +17,30 @@ export class SettingsComponent implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private sharedService: SharedService
+    public sharedService: SharedService
   ) {}
   settingsForm: FormGroup;
+
+  defaultCurrency = '₹';
+  currentCurrency = this.defaultCurrency;
+  currencies: ICurrencyList[] = [
+    {
+      sign: '₹',
+      name: 'Rupee',
+    },
+    {
+      sign: '$',
+      name: 'Dollar',
+    },
+    {
+      sign: '€',
+      name: 'Euro',
+    },
+    {
+      sign: '฿',
+      name: 'Baht',
+    },
+  ];
 
   async ngOnInit(): Promise<void> {
     this.initSettingsForm();
@@ -27,8 +51,11 @@ export class SettingsComponent implements OnInit {
   patchSettingForm(calcSettings: ICalculatorPercentageSettings): void {
     if (!isEmpty(calcSettings)) {
       Object.entries(calcSettings).forEach(([key, val]) =>
-        this.settingsForm?.get(key)?.patchValue(val || 0)
+        key !== 'currency'
+          ? this.settingsForm?.get(key)?.patchValue(val || 0)
+          : this.settingsForm?.get(key)?.patchValue(val || this.defaultCurrency)
       );
+      this.currentCurrency = this.settingsForm.get('currency').value;
     }
   }
 
@@ -36,6 +63,7 @@ export class SettingsComponent implements OnInit {
     this.settingsForm = this.fb.group({
       saving: [0, [Validators.required]],
       gst: [0, [Validators.required]],
+      currency: [this.currentCurrency],
     });
   }
 
@@ -45,10 +73,11 @@ export class SettingsComponent implements OnInit {
 
   onSettingFormSubmit() {
     try {
-      const isSettingFormValid = this.settingsForm.value;
+      const isSettingFormValid = this.settingsForm.valid;
       if (isSettingFormValid) {
         const settingFormValues = this.settingsForm
           .value as ICalculatorPercentageSettings;
+        console.log('😍 ~ isSettingFormValid', settingFormValues);
         this.sharedService.setCalculatorSettings(settingFormValues);
         this.closeModal();
       } else {
@@ -56,5 +85,10 @@ export class SettingsComponent implements OnInit {
     } catch (error) {
       console.log('😍 ~ onSettingFormSubmit', error);
     }
+  }
+
+  onClickCurrency(currency: ICurrencyList) {
+    this.currentCurrency = currency.sign;
+    this.settingsForm.get('currency').patchValue(this.currentCurrency);
   }
 }

@@ -6,5 +6,6 @@
   "Transport": "Transport",
   "Insurance": "Insurance",
   "Selling Price": "Selling Price",
-  "Total": "Total"
+  "Total": "Total",
+  "saving_tax_warning": "Your Savings and Tax percentage is currently 0 percent. Please update by clicking on Settings icon."
 }

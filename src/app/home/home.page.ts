@@ -23,11 +23,12 @@ export class HomePage implements OnInit {
   totalWithTransport = 0;
   totalPrice = 0;
   isValid = true;
+  currency: string;
   constructor(
     private modalCtrl: ModalController,
-    private sharedService: SharedService,
     private fb: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public sharedService: SharedService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -38,9 +39,9 @@ export class HomePage implements OnInit {
 
   initCalculatorForm(): void {
     this.calcForm = this.fb.group({
-      buy_price: [null, [Validators.required]],
-      transport: [null, [Validators.required]],
-      insurance: [null, [Validators.required]],
+      buy_price: [0, [Validators.required]],
+      transport: [0, [Validators.required]],
+      insurance: [0, [Validators.required]],
     });
   }
 
@@ -105,10 +106,12 @@ export class HomePage implements OnInit {
 
   async setCalcDefaultPercent(): Promise<void> {
     const calcDefaultSettings = await this.sharedService.getCalculatorSettings();
+    this.currency = '₹';
     if (!isEmpty(calcDefaultSettings)) {
-      const { gst, saving } = calcDefaultSettings;
-      this.savingPercent = saving;
-      this.gstPercent = gst;
+      const { gst, saving, currency } = calcDefaultSettings;
+      this.savingPercent = saving ? saving : 0;
+      this.gstPercent = gst ? gst : 0;
+      this.currency = currency ? currency : '₹';
     }
   }
 
@@ -116,8 +119,6 @@ export class HomePage implements OnInit {
     const modal = await this.modalCtrl.create({ component: SettingsComponent });
     void modal.present();
     modal.onDidDismiss().finally(async () => {
-      this.savingPercent = 0;
-      this.gstPercent = 0;
       this.resetForm();
       this.resetVariables();
       await this.setCalcDefaultPercent();

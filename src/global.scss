@@ -30,6 +30,7 @@ $color-primary: #3880ff;
 $color-tertiary: #5260ff;
 $color-secondary: #3dc2ff;
 $color-white: white;
+$color-warning: #ffd534;
 
 :root {
   ion-input,
@@ -46,6 +47,14 @@ $color-white: white;
 
 .color-white {
   color: $color-white;
+}
+
+.color-danger {
+  color: $color-danger;
+}
+
+.color-warning {
+  color: $color-warning;
 }
 
 .item-inner {
@@ -66,6 +75,10 @@ $color-white: white;
 
 .justify-end {
   justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .bg-white {

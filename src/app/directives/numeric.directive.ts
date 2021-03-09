@@ -12,7 +12,7 @@ Example usage
 <input numeric decimals="2" type="text">
 */
 export class NumericDirective {
-  @Input() decimals = 0;
+  @Input() decimals: string | number = 0;
   private onlyNumberRegex = new RegExp(/^[0-9]*$/g);
 
   private specialKeys: Array<string> = [

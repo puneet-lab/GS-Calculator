@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
@@ -52,5 +53,12 @@ export class SharedService {
       StorageKeyTypes.GS_CALCULATOR_PERCENTAGE_SETTING
     )) as ICalculatorPercentageSettings;
     return calcSettings;
+  }
+
+  onClickInputClear(controlName: string, formGroup: FormGroup): void {
+    const controlValue = formGroup.get(controlName).value;
+    if (!controlValue) {
+      formGroup.get(controlName).patchValue(null);
+    }
   }
 }

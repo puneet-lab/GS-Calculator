@@ -1,11 +1,22 @@
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
 /* Webkit browsers like Safari and Chrome */
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.currency-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.button-padding-20 {
+  --padding-bottom: 20px;
+  --padding-top: 20px;
 }

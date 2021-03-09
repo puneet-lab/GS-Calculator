@@ -1,6 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary" class="">
-    <ion-title class="pt-10 pb-10" size="large"> GS/GT Calculator </ion-title>
+    <ion-title class="pt-10 pb-10" size="large">
+      Sell Price Calculator
+    </ion-title>
 
     <ion-icon
       (click)="openSettingsModal()"
@@ -48,19 +50,19 @@
 
         <ion-card-content>
           <div class="flex justify-end">
-            <ion-label>₹ {{calcSaving.toFixed(2)}} </ion-label>
+            <ion-label>{{this.currency}} {{calcSaving.toFixed(2)}} </ion-label>
           </div>
         </ion-card-content>
       </ion-card>
 
       <ion-card class="border-top-secondary" (click)="openSettingsModal()">
         <ion-card-header>
-          <ion-label>{{ 'GST' | translate }}: {{this.gstPercent}} %</ion-label>
+          <ion-label>TAX : {{this.gstPercent}} %</ion-label>
         </ion-card-header>
 
         <ion-card-content>
           <div class="flex justify-end">
-            <ion-label>₹ {{calcGST.toFixed(2)}}</ion-label>
+            <ion-label>{{this.currency}} {{calcGST.toFixed(2)}}</ion-label>
           </div>
         </ion-card-content>
       </ion-card>
@@ -69,12 +71,11 @@
     <div class="flex justify-around">
       <ion-card
         class="border-top-secondary"
-        (click)="openSettingsModal()"
         [color]="isValid ?  'primary' : 'danger'"
       >
         <ion-card-header>
           <ion-label
-            >{{ 'Selling Price' | translate }}: ₹
+            >{{ 'Selling Price' | translate }}: {{this.currency}}
             {{sellingPrice.toFixed(2)}}</ion-label
           >
         </ion-card-header>
@@ -95,6 +96,7 @@
             decimals="2"
             type="number"
             inputmode="numeric"
+            (click)="sharedService.onClickInputClear('buy_price', this.calcForm)"
             autofocus
           ></ion-input>
         </ion-item>
@@ -110,6 +112,7 @@
                 decimals="2"
                 type="number"
                 inputmode="numeric"
+                (click)="sharedService.onClickInputClear('transport', this.calcForm)"
               ></ion-input>
             </ion-item>
             <ion-note class="ml-5" color="primary">
@@ -128,6 +131,7 @@
                 decimals="2"
                 type="number"
                 inputmode="numeric"
+                (click)="sharedService.onClickInputClear('insurance', this.calcForm)"
               ></ion-input>
             </ion-item>
             <ion-note class="ml-5" color="primary">
@@ -137,5 +141,11 @@
         </div>
       </form>
     </div>
+  </div>
+
+  <div class="mt-10 p-10 flex">
+    <p class="color-danger" *ngIf="!savingPercent && !gstPercent">
+      {{'saving_tax_warning' | translate}}
+    </p>
   </div>
 </ion-content>

@@ -1,6 +1,7 @@
 export interface ICalculatorPercentageSettings {
   saving: number;
   gst: number;
+  currency: string;
 }
 
 export enum LanguageTypes {
@@ -12,6 +13,11 @@ export interface ICalculatorFormValues {
   buy_price: number;
   transport: number;
   insurance: number;
+}
+
+export interface ICurrencyList {
+  name: string;
+  sign: string;
 }
 
 export enum StorageKeyTypes {

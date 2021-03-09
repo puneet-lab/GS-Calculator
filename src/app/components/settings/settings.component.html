@@ -1,6 +1,8 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary" class="pb-10" (click)="closeModal()">
-    <ion-title size="large"> {{ 'Settings' | translate }} </ion-title>
+  <ion-toolbar color="primary" (click)="closeModal()">
+    <ion-title size="large">
+      {{ 'Settings' | translate }}
+    </ion-title>
     <ion-icon
       slot="end"
       class="fz-35 mr-10"
@@ -21,12 +23,15 @@
           type="number"
           pattern="[0-9]*"
           inputmode="numeric"
+          (click)="
+            this.sharedService.onClickInputClear('saving', this.settingsForm)
+          "
         ></ion-input>
         <span>%</span>
       </ion-item>
 
       <ion-item>
-        <ion-label position="fixed">GST</ion-label>
+        <ion-label position="fixed">TAX</ion-label>
         <ion-input
           formControlName="gst"
           pkNumeric
@@ -34,18 +39,37 @@
           type="number"
           pattern="[0-9]*"
           inputmode="numeric"
+          (click)="
+            this.sharedService.onClickInputClear('gst', this.settingsForm)
+          "
         ></ion-input>
         <span>%</span>
       </ion-item>
 
+      <div class="mt-10 mb-10 currency-grid">
+        <ng-container *ngFor="let currency of currencies">
+          <ion-chip
+            class="p-20"
+            [color]="currentCurrency === currency.sign ? 'primary' : 'dark'"
+            (click)="this.onClickCurrency(currency)"
+          >
+            <ion-label>{{ currency.sign }}: {{ currency.name }}</ion-label>
+            <ion-icon
+              name="checkmark-circle-outline"
+              *ngIf="currentCurrency === currency.sign"
+            ></ion-icon>
+          </ion-chip>
+        </ng-container>
+      </div>
+
       <ion-button
         type="submit"
-        class="mt-20"
+        class="mt-20 button-padding-20"
         shape="round"
         fill="outline"
         expand="block"
-        size="large"
         color="primary"
+        [disabled]="!this.settingsForm.valid"
       >
         {{ 'Save' | translate }}
       </ion-button>

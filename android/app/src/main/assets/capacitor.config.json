@@ -1,6 +1,6 @@
 {
-  "appId": "com.puneetkushwah.gscalculator",
-  "appName": "GS Calculator",
+  "appId": "com.puneetkushwah.sellcalculator",
+  "appName": "Sell Price Calculator",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -9,9 +9,5 @@
       "launchShowDuration": 0
     }
   },
-  "cordova": {},
-  "server": {
-    "url": "http://172.20.10.5:8100",
-    "cleartext": true
-  }
+  "cordova": {}
 }
