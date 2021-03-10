@@ -1,11 +1,11 @@
 {
-  "Savings": "Savings",
+  "Savings": "Profit",
   "Save": "Save",
   "Settings": "Settings",
   "Buy Price": "Buy Price",
   "Transport": "Transport",
   "Insurance": "Insurance",
-  "Selling Price": "Selling Price",
+  "Selling Price": "Sell Price",
   "Total": "Total",
-  "saving_tax_warning": "Your Savings and Tax percentage is currently 0 percent. Please update by clicking on Settings icon."
+  "saving_tax_warning": "Your Savings and Tax percentage is currently 0%. Please update by clicking on Settings icon."
 }

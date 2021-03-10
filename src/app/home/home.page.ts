@@ -119,9 +119,11 @@ export class HomePage implements OnInit {
     const modal = await this.modalCtrl.create({ component: SettingsComponent });
     void modal.present();
     modal.onDidDismiss().finally(async () => {
-      this.resetForm();
+      // this.resetForm();
       this.resetVariables();
       await this.setCalcDefaultPercent();
+      const calcValues = this.calcForm.value;
+      this.performCalculation(calcValues);
     });
   }
 
@@ -134,7 +136,14 @@ export class HomePage implements OnInit {
   }
 
   resetForm(): void {
-    this.calcForm.reset();
+    const calcDefaultValues: ICalculatorFormValues = {
+      buy_price: 0,
+      insurance: 0,
+      transport: 0,
+    };
+    Object.entries(calcDefaultValues).forEach(([key, val]) =>
+      this.calcForm.get(key).patchValue(val)
+    );
   }
 
   changeLanguage(): void {

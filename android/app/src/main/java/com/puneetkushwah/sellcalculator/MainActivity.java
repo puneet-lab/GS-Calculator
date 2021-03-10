@@ -1,4 +1,4 @@
-package com.puneetkushwah.gscalculator;
+package com.puneetkushwah.sellcalculator;
 
 import android.os.Bundle;
 

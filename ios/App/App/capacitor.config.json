@@ -1,6 +1,6 @@
 {
-  "appId": "com.puneetkushwah.gscalculator",
-  "appName": "GS Calculator",
+  "appId": "com.puneetkushwah.sellcalculator",
+  "appName": "Sell Price Calculator",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
