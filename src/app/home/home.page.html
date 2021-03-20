@@ -17,69 +17,91 @@
       slot="end"
       name="language-outline"
     ></ion-icon>
-
-    <!-- <div class="flex justify-end"> 
-    <ion-buttons left>
-      <button
-        ion-button
-        icon-only
-        clear
-        item-right
-        (click)="openSettingsModal()"
-      >
-        <ion-icon class="fz-35 color-white" name="cog-outline"></ion-icon>
-      </button>
-
-      <button ion-button icon-only clear item-right (click)="changeLanguage()">
-        <ion-icon class="fz-35 color-white" name="language-outline"></ion-icon>
-      </button>
-    </ion-buttons>
-   </div> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="flex justify-between m-10" *ngIf="sellingPrice > 0">
+    <div *ngFor="let chartLabelColor of this.chartLabelColors">
+      <div class="flex flex-column justify-center items-center">
+        <div
+          class="color-indicator"
+          [ngStyle]="{'background-color':chartLabelColor.color}"
+        ></div>
+        <div>{{chartLabelColor.label | translate}}</div>
+      </div>
+    </div>
+  </div>
   <div class="calculation-container">
-    <div class="flex justify-around">
-      <ion-card class="border-top-secondary" (click)="openSettingsModal()">
-        <ion-card-header>
+    <div class="flex justify-center flex-column">
+      <ion-card (click)="openSettingsModal()">
+        <div class="p-5">
           <ion-label
             >{{ 'Savings' | translate }}: {{this.savingPercent}} %</ion-label
           >
-        </ion-card-header>
+        </div>
 
-        <ion-card-content>
+        <div class="p-5">
           <div class="flex justify-end">
             <ion-label>{{this.currency}} {{calcSaving.toFixed(2)}} </ion-label>
           </div>
-        </ion-card-content>
+        </div>
       </ion-card>
 
-      <ion-card class="border-top-secondary" (click)="openSettingsModal()">
-        <ion-card-header>
-          <ion-label>TAX : {{this.gstPercent}} %</ion-label>
-        </ion-card-header>
+      <ion-card (click)="openSettingsModal()">
+        <div class="p-5">
+          <ion-label>{{'Tax' | translate}} : {{this.gstPercent}} %</ion-label>
+        </div>
 
-        <ion-card-content>
+        <div class="p-5">
           <div class="flex justify-end">
             <ion-label>{{this.currency}} {{calcGST.toFixed(2)}}</ion-label>
           </div>
-        </ion-card-content>
+        </div>
+      </ion-card>
+      <ion-card class="sell-indicator">
+        <div class="p-5">
+          <ion-label class="color-white"
+            >{{ 'Selling Price' | translate }}</ion-label
+          >
+        </div>
+
+        <div class="p-5">
+          <div class="flex justify-end">
+            <ion-label class="color-white"
+              >{{this.currency}} {{sellingPrice.toFixed(2)}}</ion-label
+            >
+          </div>
+        </div>
       </ion-card>
     </div>
-
-    <div class="flex justify-around">
-      <ion-card
-        class="border-top-secondary"
-        [color]="isValid ?  'primary' : 'danger'"
-      >
-        <ion-card-header>
-          <ion-label
-            >{{ 'Selling Price' | translate }}: {{this.currency}}
-            {{sellingPrice.toFixed(2)}}</ion-label
-          >
-        </ion-card-header>
-      </ion-card>
+    <div class="flex justify-center flex-column">
+      <div *ngIf="sellingPrice > 0">
+        <canvas
+          width="20"
+          height="20"
+          baseChart
+          [data]="doughnutChartData"
+          [labels]="doughnutChartLabels"
+          [chartType]="doughnutChartType"
+          [options]="doughnutChartOptions"
+          [colors]="doughnutChartColors"
+        >
+        </canvas>
+      </div>
+      <div *ngIf="sellingPrice === 0">
+        <canvas
+          width="20"
+          height="20"
+          baseChart
+          [data]="doughutChartDisableValue"
+          [labels]=""
+          [chartType]="doughnutChartType"
+          [options]="doughutChartDisableOption"
+          [colors]="doughnutDisableChartColors"
+        >
+        </canvas>
+      </div>
     </div>
   </div>
 
@@ -97,6 +119,7 @@
             type="number"
             inputmode="numeric"
             (click)="sharedService.onClickInputClear('buy_price', this.calcForm)"
+            id="buy_price"
             autofocus
           ></ion-input>
         </ion-item>
@@ -111,6 +134,7 @@
                 pkNumeric
                 decimals="2"
                 type="number"
+                id="transport"
                 inputmode="numeric"
                 (click)="sharedService.onClickInputClear('transport', this.calcForm)"
               ></ion-input>
@@ -130,6 +154,7 @@
                 pkNumeric
                 decimals="2"
                 type="number"
+                id="insurance"
                 inputmode="numeric"
                 (click)="sharedService.onClickInputClear('insurance', this.calcForm)"
               ></ion-input>

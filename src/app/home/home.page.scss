@@ -1,4 +1,18 @@
 .calculation-container {
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cost-indicator {
+  background-color: #0091ea;
+}
+
+.sell-indicator {
+  background-color: #2962ff;
+}
+
+.color-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }

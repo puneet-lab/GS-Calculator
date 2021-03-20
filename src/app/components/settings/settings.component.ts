@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import {
   ICalculatorPercentageSettings,
   ICurrencyList,

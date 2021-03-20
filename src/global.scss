@@ -41,7 +41,7 @@ $color-warning: #ffd534;
     --padding-end: 15px;
     --padding-top: 15px;
     --padding-bottom: 15px;
-    font-size: 1.4rem !important;
+    font-size: 1.1rem !important;
   }
 }
 
@@ -61,16 +61,20 @@ $color-warning: #ffd534;
   border-bottom-width: 0px !important;
 }
 
-.border-top-secondary {
-  border-top: 5px solid $color-secondary;
-  border-radius: 4px;
-}
 .flex {
   display: flex;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
 .justify-around {
   justify-content: space-around;
+}
+
+.justify-between {
+  justify-content: space-between;
 }
 
 .justify-end {
@@ -79,6 +83,10 @@ $color-warning: #ffd534;
 
 .justify-center {
   justify-content: center;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .bg-white {

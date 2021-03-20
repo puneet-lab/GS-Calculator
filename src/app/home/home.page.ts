@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { isEmpty } from 'lodash';
+import { ChartOptions, ChartType } from 'chart.js';
+import { isEmpty } from 'lodash-es';
+import { Color, Label, MultiDataSet } from 'ng2-charts';
 import { EMPTY } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { SettingsComponent } from '../components/settings/settings.component';
-import { ICalculatorFormValues, LanguageTypes } from '../models';
+import { ICalculatorFormValues, ILabelColor, LanguageTypes } from '../models';
 import { SharedService } from '../services/shared.service';
 @Component({
   selector: 'app-home',
@@ -24,6 +26,77 @@ export class HomePage implements OnInit {
   totalPrice = 0;
   isValid = true;
   currency: string;
+  buyPrice = 0;
+  transport = 0;
+  insurance = 0;
+  doughnutChartOptions: ChartOptions = {
+    cutoutPercentage: 70,
+    legend: {
+      display: false,
+    },
+    layout: {
+      padding: {
+        top: 10,
+        right: 10,
+        left: 10,
+        bottom: 10,
+      },
+    },
+  };
+  doughnutChartColors: Color[] = [
+    {
+      backgroundColor: [],
+    },
+  ];
+
+  doughnutDisableChartColors: Color[] = [
+    {
+      backgroundColor: ['#eeeeee'],
+    },
+  ];
+
+  doughutChartDisableValue = [100];
+
+  doughutChartDisableOption: ChartOptions = {
+    tooltips: { enabled: false },
+    hover: { mode: null },
+    cutoutPercentage: 70,
+  };
+
+  chartLabelColors: ILabelColor[] = [
+    {
+      label: this.translate.instant('Buy Price'),
+      color: '#8CC8F4',
+    },
+    {
+      label: this.translate.instant('Transport'),
+      color: '#FFA3B5',
+    },
+    {
+      label: this.translate.instant('Insurance'),
+      color: '#FFE29E',
+    },
+    {
+      label: this.translate.instant('Savings'),
+      color: '#aa00ff',
+    },
+    {
+      label: this.translate.instant('Tax'),
+      color: '#e91e63',
+    },
+  ];
+
+  public doughnutChartLabels: Label[] = [];
+  public doughnutChartData: MultiDataSet = [
+    [
+      +this.buyPrice.toFixed(2),
+      +this.transport.toFixed(2),
+      +this.insurance.toFixed(2),
+      +this.calcSaving.toFixed(2),
+      +this.calcGST.toFixed(2),
+    ],
+  ];
+  public doughnutChartType: ChartType = 'doughnut';
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -35,6 +108,28 @@ export class HomePage implements OnInit {
     await this.setCalcDefaultPercent();
     this.initCalculatorForm();
     this.calculateSellingPrice();
+    this.initDoughnutChart();
+  }
+
+  initDoughnutChart(): void {
+    this.doughnutChartLabels = this.chartLabelColors.map(({ label }) => label);
+    this.doughnutChartColors = [
+      {
+        backgroundColor: this.chartLabelColors.map(({ color }) => color),
+      },
+    ];
+  }
+
+  reactiveChart(): void {
+    this.doughnutChartData = [
+      [
+        +this.buyPrice.toFixed(2),
+        +this.transport.toFixed(2),
+        +this.insurance.toFixed(2),
+        +this.calcSaving.toFixed(2),
+        +this.calcGST.toFixed(2),
+      ],
+    ];
   }
 
   initCalculatorForm(): void {
@@ -67,6 +162,9 @@ export class HomePage implements OnInit {
 
   performCalculation(calcValues: ICalculatorFormValues): void {
     const { buy_price, transport, insurance } = calcValues;
+    this.buyPrice = buy_price;
+    this.transport = transport;
+    this.insurance = insurance;
     this.totalWithTransport = buy_price + transport;
     this.totalPrice = this.totalWithTransport + insurance;
     this.calcSaving =
@@ -75,6 +173,7 @@ export class HomePage implements OnInit {
       (this.totalPrice + this.calcSaving) *
       this.calculatePercentage(this.gstPercent);
     this.sellingPrice = this.totalPrice + this.calcSaving + this.calcGST;
+    this.reactiveChart();
   }
 
   calculatePercentage(value: number): number {
@@ -119,7 +218,6 @@ export class HomePage implements OnInit {
     const modal = await this.modalCtrl.create({ component: SettingsComponent });
     void modal.present();
     modal.onDidDismiss().finally(async () => {
-      // this.resetForm();
       this.resetVariables();
       await this.setCalcDefaultPercent();
       const calcValues = this.calcForm.value;

@@ -60,5 +60,7 @@ export class SharedService {
     if (!controlValue) {
       formGroup.get(controlName).patchValue(null);
     }
+    const inputElement = document.getElementById(controlName) as HTMLElement;
+    inputElement.scrollIntoView({ behavior: 'smooth' });
   }
 }

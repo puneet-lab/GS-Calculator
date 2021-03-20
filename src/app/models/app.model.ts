@@ -9,6 +9,11 @@ export enum LanguageTypes {
   'HINDI' = 'hi',
 }
 
+export interface ILabelColor {
+  label: string;
+  color: string;
+}
+
 export interface ICalculatorFormValues {
   buy_price: number;
   transport: number;
