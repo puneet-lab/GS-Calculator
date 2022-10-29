@@ -1,3 +1,4 @@
+@use 'sass:math';
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -94,68 +95,68 @@ $color-warning: #ffd534;
 }
 
 @for $fz from 1 through 20 {
-  .fz-#{($fz*10 / 2)} {
-    font-size: $fz * (10px)/2;
+  .fz-#{(math.div($fz * 10, 2))} {
+    font-size: math.div($fz * 10px, 2)
   }
 }
 
 @for $m from 1 through 20 {
-  .m-#{($m*10 / 2)} {
-    margin: $m * (10px)/2;
+  .m-#{(math.div($m * 10, 2))} {
+    margin: math.div($m * 10px, 2)
   }
 }
 
 @for $p from 1 through 20 {
-  .p-#{($p*10 / 2)} {
-    padding: $p * (10px)/2;
+  .p-#{(math.div($p * 10, 2))} {
+    padding: math.div($p * 10px, 2)
   }
 }
 
 @for $mt from 1 through 20 {
-  .mt-#{($mt*10 / 2)} {
-    margin-top: $mt * (10px)/2;
+  .mt-#{(math.div($mt * 10, 2))} {
+    margin-top: math.div($mt * 10px, 2)
   }
 }
 
 @for $mr from 1 through 20 {
-  .mr-#{($mr*10/2)} {
-    margin-right: $mr * (10px)/2;
+  .mr-#{(math.div($mr * 10, 2))} {
+    margin-right: math.div($mr * 10px, 2)
   }
 }
 
 @for $mb from 1 through 20 {
-  .mb-#{($mb*10/2)} {
-    margin-bottom: $mb * (10px)/2;
+  .mb-#{(math.div($mb * 10, 2))} {
+    margin-bottom: math.div($mb * 10px, 2)
   }
 }
 
 @for $ml from 1 through 20 {
-  .ml-#{($ml*10/2)} {
-    margin-left: $ml * (10px)/2;
+  .ml-#{(math.div($ml * 10, 2))} {
+    margin-left:math.div($ml * 10px, 2)
   }
 }
 
 @for $pt from 1 through 20 {
-  .pt-#{($pt*10/2)} {
-    padding-top: $pt * (10px)/2;
+  .pt-#{(math.div($pt * 10, 2))} {
+    padding-top: math.div($pt * 10px, 2)
   }
 }
 
 @for $pr from 1 through 20 {
-  .pr-#{($pr*10/2)} {
-    padding-right: $pr * (10px)/2;
+  .pr-#{(math.div($pr * 10, 2))} {
+    padding-right: math.div($pr * 10px, 2)
   }
 }
 
 @for $pb from 1 through 20 {
-  .pb-#{($pb*10/2)} {
-    padding-bottom: $pb * (10px)/2;
+  .pb-#{(math.div($pb * 10, 2))} {
+    padding-bottom: math.div($pb * 10px, 2)
   }
 }
 
 @for $pl from 1 through 20 {
-  .pl-#{($pl*10/2)} {
-    padding-left: $pl * (10px)/2;
+  .pl-#{(math.div($pl * 10, 2))} {
+    padding-left: math.div($pl * 10px, 2)
   }
 }
 
