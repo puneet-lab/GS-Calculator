@@ -2,11 +2,12 @@ export interface ICalculatorPercentageSettings {
   saving: number;
   gst: number;
   currency: string;
+  currencySymbol: string;
 }
 
 export enum LanguageTypes {
-  'ENGLISH' = 'en',
-  'HINDI' = 'hi',
+  "ENGLISH" = "en",
+  "HINDI" = "hi",
 }
 
 export interface ILabelColor {
@@ -23,9 +24,10 @@ export interface ICalculatorFormValues {
 export interface ICurrencyList {
   name: string;
   sign: string;
+  code: string;
 }
 
 export enum StorageKeyTypes {
-  GS_CALCULATOR_PERCENTAGE_SETTING = 'GS_CALCULATOR_PERCENTAGE_SETTING',
-  GS_CALCULATOR_DEFAULT_LANGUAGE = 'GS_CALCULATOR_DEFAULT_LANGUAGE',
+  GS_CALCULATOR_PERCENTAGE_SETTING = "GS_CALCULATOR_PERCENTAGE_SETTING",
+  GS_CALCULATOR_DEFAULT_LANGUAGE = "GS_CALCULATOR_DEFAULT_LANGUAGE",
 }

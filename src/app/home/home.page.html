@@ -43,7 +43,9 @@
 
         <div class="p-5">
           <div class="flex justify-end">
-            <ion-label>{{this.currency}} {{calcSaving.toFixed(2)}} </ion-label>
+            <ion-label
+              >{{this.currencySymbol}} {{calcSaving.toFixed(2)}}
+            </ion-label>
           </div>
         </div>
       </ion-card>
@@ -55,7 +57,9 @@
 
         <div class="p-5">
           <div class="flex justify-end">
-            <ion-label>{{this.currency}} {{calcGST.toFixed(2)}}</ion-label>
+            <ion-label
+              >{{this.currencySymbol}} {{calcGST.toFixed(2)}}</ion-label
+            >
           </div>
         </div>
       </ion-card>
@@ -69,7 +73,7 @@
         <div class="p-5">
           <div class="flex justify-end">
             <ion-label class="color-white"
-              >{{this.currency}} {{sellingPrice.toFixed(2)}}</ion-label
+              >{{this.currencySymbol}} {{sellingPrice.toFixed(2)}}</ion-label
             >
           </div>
         </div>
@@ -112,6 +116,9 @@
           <ion-label color="primary" position="floating"
             >{{'Buy Price' | translate}}</ion-label
           >
+          <ion-avatar slot="end" class="ion-align-self-end pt-20"
+            >{{this.currencySymbol}}</ion-avatar
+          >
           <ion-input
             formControlName="buy_price"
             pkNumeric
@@ -129,6 +136,9 @@
               <ion-label position="floating" color="primary"
                 >{{'Transport' | translate}}</ion-label
               >
+              <ion-avatar slot="end" class="ion-align-self-end pt-20"
+                >{{this.currencySymbol}}</ion-avatar
+              >
               <ion-input
                 formControlName="transport"
                 pkNumeric
@@ -140,7 +150,8 @@
               ></ion-input>
             </ion-item>
             <ion-note class="ml-5" color="primary">
-              {{'Total' | translate}}: {{this.totalWithTransport.toFixed(2)}}
+              {{'Total' | translate}}: {{this.currencySymbol}}
+              {{this.totalWithTransport.toFixed(2)}}
             </ion-note>
           </div>
 
@@ -148,6 +159,9 @@
             <ion-item class="ml-5" color="light">
               <ion-label position="floating" color="primary"
                 >{{'Insurance' | translate}}</ion-label
+              >
+              <ion-avatar slot="end" class="ion-align-self-end pt-20"
+                >{{this.currencySymbol}}</ion-avatar
               >
               <ion-input
                 formControlName="insurance"
@@ -160,7 +174,8 @@
               ></ion-input>
             </ion-item>
             <ion-note class="ml-5" color="primary">
-              {{'Total' | translate}}: {{this.totalPrice.toFixed(2)}}
+              {{'Total' | translate}}: {{this.currencySymbol}}
+              {{this.totalPrice.toFixed(2)}}
             </ion-note>
           </div>
         </div>

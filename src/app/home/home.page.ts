@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
-import { ChartOptions, ChartType } from 'chart.js';
-import { isEmpty } from 'lodash-es';
-import { Color, Label, MultiDataSet } from 'ng2-charts';
-import { EMPTY } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { SettingsComponent } from '../components/settings/settings.component';
-import { ICalculatorFormValues, ILabelColor, LanguageTypes } from '../models';
-import { SharedService } from '../services/shared.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ModalController } from "@ionic/angular";
+import { TranslateService } from "@ngx-translate/core";
+import { ChartOptions, ChartType } from "chart.js";
+import { isEmpty } from "lodash-es";
+import { Color, Label, MultiDataSet } from "ng2-charts";
+import { EMPTY } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { SettingsComponent } from "../components/settings/settings.component";
+import { ICalculatorFormValues, ILabelColor, LanguageTypes } from "../models";
+import { defaultCurrency } from "../resources/currencies";
+import { SharedService } from "../services/shared.service";
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
   savingPercent = 0;
@@ -51,7 +52,7 @@ export class HomePage implements OnInit {
 
   doughnutDisableChartColors: Color[] = [
     {
-      backgroundColor: ['#eeeeee'],
+      backgroundColor: ["#eeeeee"],
     },
   ];
 
@@ -65,24 +66,24 @@ export class HomePage implements OnInit {
 
   chartLabelColors: ILabelColor[] = [
     {
-      label: this.translate.instant('Buy Price'),
-      color: '#8CC8F4',
+      label: this.translate.instant("Buy Price"),
+      color: "#8CC8F4",
     },
     {
-      label: this.translate.instant('Transport'),
-      color: '#FFA3B5',
+      label: this.translate.instant("Transport"),
+      color: "#FFA3B5",
     },
     {
-      label: this.translate.instant('Insurance'),
-      color: '#FFE29E',
+      label: this.translate.instant("Insurance"),
+      color: "#FFE29E",
     },
     {
-      label: this.translate.instant('Savings'),
-      color: '#aa00ff',
+      label: this.translate.instant("Savings"),
+      color: "#aa00ff",
     },
     {
-      label: this.translate.instant('Tax'),
-      color: '#e91e63',
+      label: this.translate.instant("Tax"),
+      color: "#e91e63",
     },
   ];
 
@@ -96,7 +97,8 @@ export class HomePage implements OnInit {
       +this.calcGST.toFixed(2),
     ],
   ];
-  public doughnutChartType: ChartType = 'doughnut';
+  public doughnutChartType: ChartType = "doughnut";
+  currencySymbol: string;
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -204,13 +206,17 @@ export class HomePage implements OnInit {
   }
 
   async setCalcDefaultPercent(): Promise<void> {
-    const calcDefaultSettings = await this.sharedService.getCalculatorSettings();
-    this.currency = '₹';
+    const calcDefaultSettings =
+      await this.sharedService.getCalculatorSettings();
+    this.currency = defaultCurrency.code;
     if (!isEmpty(calcDefaultSettings)) {
-      const { gst, saving, currency } = calcDefaultSettings;
+      const { gst, saving, currency, currencySymbol } = calcDefaultSettings;
       this.savingPercent = saving ? saving : 0;
       this.gstPercent = gst ? gst : 0;
-      this.currency = currency ? currency : '₹';
+      this.currency = currency ? currency : defaultCurrency.code;
+      this.currencySymbol = currencySymbol
+        ? currencySymbol
+        : defaultCurrency.symbol;
     }
   }
 

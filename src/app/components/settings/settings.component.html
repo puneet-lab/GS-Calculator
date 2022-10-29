@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary" (click)="closeModal()">
     <ion-title size="large">
-      {{ 'Settings' | translate }}
+      {{ "Settings" | translate }}
     </ion-title>
     <ion-icon
       slot="end"
@@ -15,7 +15,7 @@
   <div class="m-15" *ngIf="settingsForm">
     <form [formGroup]="settingsForm" (ngSubmit)="onSettingFormSubmit()">
       <ion-item>
-        <ion-label position="fixed">{{ 'Savings' | translate }}</ion-label>
+        <ion-label position="fixed">{{ "Savings" | translate }}</ion-label>
         <ion-input
           formControlName="saving"
           pkNumeric
@@ -47,22 +47,45 @@
       </ion-item>
 
       <div class="mt-10 mb-10 currency-grid">
+        <ion-label>Current Currency - ({{ currentCurrencySymbol }})</ion-label>
+        <ion-searchbar
+          (ionClear)="resetCurrencyList()"
+          (ionChange)="searchCurrencies($event.detail.value)"
+          placeholder="Currency"
+          animated="true"
+        ></ion-searchbar>
         <ng-container *ngFor="let currency of currencies">
           <ion-chip
             class="p-20"
-            [color]="currentCurrency === currency.sign ? 'primary' : 'dark'"
+            [color]="currentCurrency === currency.code ? 'primary' : 'dark'"
             (click)="this.onClickCurrency(currency)"
           >
-            <ion-label>{{ currency.sign }}: {{ currency.name }}</ion-label>
+            <ion-label
+              >{{ currency.sign }}: {{ currency.name }}
+              {{ currentCurrency === currency.code }}</ion-label
+            >
             <ion-icon
               name="checkmark-circle-outline"
-              *ngIf="currentCurrency === currency.sign"
+              *ngIf="currentCurrency === currency.code"
             ></ion-icon>
           </ion-chip>
         </ng-container>
       </div>
 
-      <ion-button
+      <ion-fab
+        (click)="onSettingFormSubmit()"
+        vertical="end"
+        horizontal="end"
+        slot="fixed"
+        class="mt-20 button-padding-20"
+        *ngIf="this.settingsForm.valid"
+      >
+        <ion-fab-button>
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <!-- <ion-button
         type="submit"
         class="mt-20 button-padding-20"
         shape="round"
@@ -71,8 +94,8 @@
         color="primary"
         [disabled]="!this.settingsForm.valid"
       >
-        {{ 'Save' | translate }}
-      </ion-button>
+        {{ "Save" | translate }}
+      </ion-button> -->
     </form>
   </div>
 </ion-content>
