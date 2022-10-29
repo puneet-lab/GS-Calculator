@@ -1,19 +1,20 @@
-import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Storage } from '@ionic/storage';
-import { TranslateService } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment';
-import { ICalculatorPercentageSettings, StorageKeyTypes } from '../models';
+import { Injectable } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import { Storage } from "@ionic/storage-angular";
+import { TranslateService } from "@ngx-translate/core";
+import { environment } from "src/environments/environment";
+import { ICalculatorPercentageSettings, StorageKeyTypes } from "../models";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SharedService {
   constructor(private storage: Storage, private translate: TranslateService) {}
-  selectedLanguage = '';
+  selectedLanguage = "";
   defaultLanguage: string = environment.language;
 
-  setInitialAppLanguage(): void {
+  async setInitialAppLanguage(): Promise<void> {
+    await this.storage.create();
     let language = this.translate.getBrowserLang();
     language = language ? language : this.defaultLanguage;
     this.translate.setDefaultLang(language);
@@ -43,7 +44,7 @@ export class SharedService {
         calcSettings
       );
     } catch (error) {
-      console.log('😍 ~ setCalculatorSettings', error);
+      console.log("😍 ~ setCalculatorSettings", error);
       throw new Error(error);
     }
   }
@@ -61,6 +62,6 @@ export class SharedService {
       formGroup.get(controlName).patchValue(null);
     }
     const inputElement = document.getElementById(controlName) as HTMLElement;
-    inputElement.scrollIntoView({ behavior: 'smooth' });
+    inputElement.scrollIntoView({ behavior: "smooth" });
   }
 }
