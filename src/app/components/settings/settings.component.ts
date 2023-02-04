@@ -1,13 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
 import { isEmpty } from "lodash-es";
-import { tap } from "rxjs/operators";
 import {
   ICalculatorPercentageSettings,
   ICurrencyList,
@@ -39,17 +33,16 @@ export class SettingsComponent implements OnInit {
     this.patchSettingForm(calcSettings);
   }
 
-  searchCurrencies(search: string): void {
+  searchCurrencies($event: any): void {
+    let search = $event.detail.value;
     if (!search) {
       this.currencies = this.getMappedCurrencies();
       return;
     }
     search = search.toLowerCase();
     const matchedCurrencies = allCurrencies.filter(
-      ({ name, symbolNative, code }) =>
-        name.toLowerCase().includes(search) ||
-        name.toLowerCase().includes(symbolNative) ||
-        name.toLowerCase().includes(code)
+      ({ name, code }) =>
+        name.toLowerCase().includes(search) || name.toLowerCase().includes(code)
     );
     this.currencies = this.getMappedCurrencies(matchedCurrencies);
   }

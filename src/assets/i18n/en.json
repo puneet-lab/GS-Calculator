@@ -9,5 +9,16 @@
   "Cost Price": "Cost Price",
   "Total": "Total",
   "Tax": "Tax",
-  "saving_tax_warning": "Your Savings and Tax percentage is currently 0%. Please update by clicking on Settings icon."
+  "saving_tax_warning": "Your Savings and Tax percentage is currently 0%. Please update by clicking on Settings icon.",
+  "Save Price": "Save Price",
+  "Product Name": "Product Name",
+  "Enter product name": "Enter product name",
+  "Products": "Products",
+  "Currency": "Currency",
+  "Delete Product": "Delete Product",
+  "Cancel": "Cancel",
+  "OK": "OK",
+  "Product saved": "Product saved",
+  "Product not saved, try later": "Product not saved, try later",
+  "Product already exists": "Products exists already, please delete old product and add new or change name"
 }

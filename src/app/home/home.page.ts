@@ -1,14 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ModalController } from "@ionic/angular";
+import { IonModal, ModalController, ToastController } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 import { ChartOptions, ChartType } from "chart.js";
 import { isEmpty } from "lodash-es";
 import { Color, Label, MultiDataSet } from "ng2-charts";
 import { EMPTY } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
+import { v4 as uuid } from "uuid";
+import { ProductsComponent } from "../components/products/products.component";
 import { SettingsComponent } from "../components/settings/settings.component";
-import { ICalculatorFormValues, ILabelColor, LanguageTypes } from "../models";
+import {
+  ICalculatorFormValues,
+  ILabelColor,
+  IProduct,
+  LanguageTypes,
+} from "../models";
 import { defaultCurrency } from "../resources/currencies";
 import { SharedService } from "../services/shared.service";
 @Component({
@@ -30,6 +37,8 @@ export class HomePage implements OnInit {
   buyPrice = 0;
   transport = 0;
   insurance = 0;
+  productName: string;
+  isProductModalOpen = false;
   doughnutChartOptions: ChartOptions = {
     cutoutPercentage: 70,
     legend: {
@@ -99,11 +108,14 @@ export class HomePage implements OnInit {
   ];
   public doughnutChartType: ChartType = "doughnut";
   currencySymbol: string;
+  @ViewChild(IonModal) modal: IonModal;
+
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private translate: TranslateService,
-    public sharedService: SharedService
+    public sharedService: SharedService,
+    private toastController: ToastController
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -231,6 +243,11 @@ export class HomePage implements OnInit {
     });
   }
 
+  async openProductsModal(): Promise<void> {
+    const modal = await this.modalCtrl.create({ component: ProductsComponent });
+    void modal.present();
+  }
+
   resetVariables(): void {
     this.sellingPrice = 0;
     this.calcSaving = 0;
@@ -258,5 +275,77 @@ export class HomePage implements OnInit {
         : LanguageTypes.HINDI;
 
     this.sharedService.setLanguage(switchLanguage);
+  }
+
+  cancel(): void {
+    this.isProductModalOpen = false;
+    this.modal.dismiss(null, "cancel");
+  }
+
+  confirm(): void {
+    this.isProductModalOpen = false;
+    this.modal.dismiss(this.productName, "confirm");
+    this.saveProduct();
+  }
+
+  openSaveProductModal(): void {
+    this.productName = "";
+    this.isProductModalOpen = true;
+  }
+
+  async saveProduct(): Promise<void> {
+    try {
+      const products = await this.sharedService.getProducts();
+      const isProductExists = this.getProductsExists(products);
+      if (isProductExists) {
+        const productExistsMessage = this.translate.instant(
+          "Product already exists"
+        );
+        this.showToast(productExistsMessage);
+        return;
+      }
+      const calcSettings = await this.sharedService.getCalculatorSettings();
+
+      const formValues = this.calcForm.value as ICalculatorFormValues;
+      const product: IProduct = {
+        id: uuid(),
+        ...formValues,
+        sellingPrice: this.sellingPrice,
+        tax: this.calcGST,
+        profit: this.calcSaving,
+        productName: this.productName,
+        updatedAt: Date.now(),
+        isOpen: false,
+        calcSettings,
+      };
+      await this.sharedService.setProducts(
+        products ? [...products, product] : [product]
+      );
+      const message = this.translate.instant("Product saved");
+      await this.showToast(message);
+      this.resetForm();
+    } catch (error) {
+      const message = this.translate.instant("Product not saved, try later");
+      await this.showToast(message);
+      throw error;
+    }
+  }
+
+  getProductsExists(products: IProduct[]): boolean {
+    if (!products?.length) return false;
+    const isProductExists = products?.findIndex(
+      ({ productName }) =>
+        productName.toLowerCase() === this.productName.toLowerCase()
+    );
+    return isProductExists !== -1;
+  }
+
+  async showToast(message: string): Promise<void> {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2500,
+      position: "bottom",
+    });
+    await toast.present();
   }
 }

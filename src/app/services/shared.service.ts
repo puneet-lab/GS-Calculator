@@ -3,7 +3,11 @@ import { FormGroup } from "@angular/forms";
 import { Storage } from "@ionic/storage-angular";
 import { TranslateService } from "@ngx-translate/core";
 import { environment } from "src/environments/environment";
-import { ICalculatorPercentageSettings, StorageKeyTypes } from "../models";
+import {
+  ICalculatorPercentageSettings,
+  IProduct,
+  StorageKeyTypes,
+} from "../models";
 
 @Injectable({
   providedIn: "root",
@@ -54,6 +58,22 @@ export class SharedService {
       StorageKeyTypes.GS_CALCULATOR_PERCENTAGE_SETTING
     )) as ICalculatorPercentageSettings;
     return calcSettings;
+  }
+
+  async getProducts(): Promise<IProduct[]> {
+    const products = (await this.storage.get(
+      StorageKeyTypes.GS_CALCULATOR_PRODUCTS
+    )) as IProduct[];
+    return products;
+  }
+
+  async setProducts(products: IProduct[]): Promise<void> {
+    try {
+      await this.storage.set(StorageKeyTypes.GS_CALCULATOR_PRODUCTS, products);
+    } catch (error) {
+      console.error("Error in saving product", error);
+      throw error;
+    }
   }
 
   onClickInputClear(controlName: string, formGroup: FormGroup): void {

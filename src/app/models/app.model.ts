@@ -27,7 +27,19 @@ export interface ICurrencyList {
   code: string;
 }
 
+export interface IProduct extends ICalculatorFormValues {
+  id: string;
+  productName: string;
+  sellingPrice: number;
+  profit: number;
+  tax: number;
+  calcSettings: ICalculatorPercentageSettings;
+  updatedAt: number;
+  isOpen: boolean;
+}
+
 export enum StorageKeyTypes {
   GS_CALCULATOR_PERCENTAGE_SETTING = "GS_CALCULATOR_PERCENTAGE_SETTING",
   GS_CALCULATOR_DEFAULT_LANGUAGE = "GS_CALCULATOR_DEFAULT_LANGUAGE",
+  GS_CALCULATOR_PRODUCTS = "GS_CALCULATOR_PRODUCTS",
 }
