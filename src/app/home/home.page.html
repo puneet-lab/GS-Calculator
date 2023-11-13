@@ -3,201 +3,121 @@
     <ion-title class="pt-10 pb-10" size="large">
       Sell Price Calculator
     </ion-title>
-
-    <ion-icon
-      (click)="openProductsModal()"
-      class="fz-35 color-white mr-5"
-      name="reorder-four-outline"
-      slot="end"
-    ></ion-icon>
-    <ion-icon
-      (click)="openSettingsModal()"
-      class="fz-35 color-white mr-5"
-      name="cog-outline"
-      slot="end"
-    ></ion-icon>
-
-    <ion-icon
-      class="fz-35 color-white mr-5"
-      (click)="changeLanguage()"
-      slot="end"
-      name="language-outline"
-    ></ion-icon>
+    <ion-buttons slot="primary">
+      <ion-button id="click-trigger">
+        <ion-icon
+          slot="icon-only"
+          ios="ellipsis-horizontal"
+          md="ellipsis-vertical"
+        ></ion-icon>
+      </ion-button>
+      <ion-popover
+        trigger="click-trigger"
+        triggerAction="click"
+        [dismissOnSelect]="true"
+      >
+        <ng-template>
+          <div
+            *ngFor="let item of menuItems"
+            (click)="item.action()"
+            class="ion-padding flex items-center gap-5"
+          >
+            <ion-icon size="large" [name]="item.iconName"></ion-icon>
+            <ion-label>{{item.title | translate}}</ion-label>
+          </div>
+        </ng-template>
+      </ion-popover>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="flex justify-between m-10" *ngIf="sellingPrice > 0">
-    <div *ngFor="let chartLabelColor of this.chartLabelColors">
-      <div class="flex flex-column justify-center items-center">
-        <div
-          class="color-indicator"
-          [ngStyle]="{'background-color':chartLabelColor.color}"
-        ></div>
-        <div>{{chartLabelColor.label | translate}}</div>
-      </div>
-    </div>
-  </div>
-  <div class="calculation-container">
-    <div class="flex justify-center flex-column">
-      <ion-card (click)="openSettingsModal()">
-        <div class="p-5">
-          <ion-label
-            >{{ 'Savings' | translate }}: {{this.savingPercent}} %</ion-label
-          >
-        </div>
-
-        <div class="p-5">
-          <div class="flex justify-end">
-            <ion-label
-              >{{this.currencySymbol}} {{calcSaving.toFixed(2)}}
-            </ion-label>
-          </div>
-        </div>
-      </ion-card>
-
-      <ion-card (click)="openSettingsModal()">
-        <div class="p-5">
-          <ion-label>{{'Tax' | translate}} : {{this.gstPercent}} %</ion-label>
-        </div>
-
-        <div class="p-5">
-          <div class="flex justify-end">
-            <ion-label
-              >{{this.currencySymbol}} {{calcGST.toFixed(2)}}</ion-label
-            >
-          </div>
-        </div>
-      </ion-card>
-      <ion-card class="sell-indicator">
-        <div class="p-5">
-          <ion-label class="color-white"
-            >{{ 'Selling Price' | translate }}</ion-label
-          >
-        </div>
-
-        <div class="p-5">
-          <div class="flex justify-end">
-            <ion-label class="color-white"
-              >{{this.currencySymbol}} {{sellingPrice.toFixed(2)}}</ion-label
-            >
-          </div>
-        </div>
-      </ion-card>
-    </div>
-    <div class="flex justify-center flex-column">
-      <div *ngIf="sellingPrice > 0">
-        <canvas
-          width="20"
-          height="20"
-          baseChart
-          [data]="doughnutChartData"
-          [labels]="doughnutChartLabels"
-          [chartType]="doughnutChartType"
-          [options]="doughnutChartOptions"
-          [colors]="doughnutChartColors"
-        >
-        </canvas>
-      </div>
-      <div *ngIf="sellingPrice === 0">
-        <canvas
-          width="20"
-          height="20"
-          baseChart
-          [data]="doughutChartDisableValue"
-          [labels]=""
-          [chartType]="doughnutChartType"
-          [options]="doughutChartDisableOption"
-          [colors]="doughnutDisableChartColors"
-        >
-        </canvas>
-      </div>
-    </div>
-  </div>
-
   <div class="m-5 p-5" *ngIf="calcForm">
     <div>
       <form [formGroup]="calcForm">
-        <ion-row>
-          <ion-col>
-            <ion-item color="light">
-              <ion-label color="primary" position="floating"
-                >{{'Buy Price' | translate}}</ion-label
-              >
-              <ion-avatar slot="end" class="ion-align-self-end pt-20"
-                >{{this.currencySymbol}}</ion-avatar
-              >
-              <ion-input
-                formControlName="buy_price"
-                pkNumeric
-                decimals="2"
-                type="number"
-                inputmode="numeric"
-                (click)="sharedService.onClickInputClear('buy_price', this.calcForm)"
-                id="buy_price"
-                autofocus
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+        <ion-input
+          formControlName="buy_price"
+          decimals="2"
+          type="number"
+          color="primary"
+          pattern="[0-9]*"
+          label="{{'Buy Price' | translate}}"
+          inputmode="numeric"
+          class="ion-text-right"
+          id="buy_price"
+          (click)="sharedService.onClickInputClear('buy_price', calcForm)"
+          autofocus
+        >
+        </ion-input>
 
-        <ion-row>
-          <ion-col size="6">
-            <ion-item color="light">
-              <ion-label position="floating" color="primary"
-                >{{'Transport' | translate}}
-                ({{this.currencySymbol}})</ion-label
-              >
-              <ion-input
-                formControlName="transport"
-                pkNumeric
-                decimals="2"
-                type="number"
-                id="transport"
-                inputmode="numeric"
-                (click)="sharedService.onClickInputClear('transport', this.calcForm)"
-              ></ion-input>
-            </ion-item>
-            <ion-note class="ml-5" color="primary">
-              {{'Total' | translate}}: {{this.currencySymbol}}
-              {{this.totalWithTransport.toFixed(2)}}
-            </ion-note>
-          </ion-col>
+        <ion-input
+          formControlName="transport"
+          decimals="2"
+          type="number"
+          pattern="[0-9]*"
+          class="ion-text-right"
+          label="{{'Transport' | translate}}"
+          id="transport"
+          inputmode="numeric"
+          (click)="sharedService.onClickInputClear('transport', calcForm)"
+        ></ion-input>
+        <ion-note class="flex justify-end">
+          {{'Total' | translate}}: {{totalWithTransport.toFixed(2)}}
+        </ion-note>
 
-          <ion-col size="6">
-            <ion-item color="light">
-              <ion-label position="floating" color="primary"
-                >{{'Insurance' | translate}}
-                ({{this.currencySymbol}})</ion-label
-              >
-              <ion-input
-                formControlName="insurance"
-                pkNumeric
-                decimals="2"
-                type="number"
-                id="insurance"
-                inputmode="numeric"
-                (click)="sharedService.onClickInputClear('insurance', this.calcForm)"
-              ></ion-input>
-            </ion-item>
-            <ion-note class="ml-5" color="primary">
-              {{'Total' | translate}}: {{this.currencySymbol}}
-              {{this.totalPrice.toFixed(2)}}
-            </ion-note>
-          </ion-col>
-        </ion-row>
+        <ion-input
+          formControlName="insurance"
+          decimals="2"
+          pattern="[0-9]*"
+          class="ion-text-right"
+          label="{{'Insurance' | translate}}"
+          type="number"
+          id="insurance"
+          inputmode="numeric"
+          (click)="sharedService.onClickInputClear('insurance', calcForm)"
+        ></ion-input>
+
+        <ion-note class="flex justify-end">
+          {{'Total' | translate}}: {{totalPrice.toFixed(2)}}
+        </ion-note>
       </form>
-      <ion-button
-        (click)="openSaveProductModal()"
-        class="mt-20"
-        id="open-modal"
-        *ngIf="this.sellingPrice"
-        expand="block"
-        >{{'Save Price' | translate}}</ion-button
-      >
+
+      <div *ngIf="sellingPrice">
+        <ion-input
+          [disabled]="true"
+          class="ion-text-right opacity-1"
+          color="primary"
+          label="{{ 'Savings' | translate }} ({{savingPercent}} %)"
+          value="{{calcSaving.toFixed(2)}}"
+        ></ion-input>
+
+        <ion-input
+          [disabled]="true"
+          class="ion-text-right opacity-1"
+          color="primary"
+          label="{{'Tax' | translate}} : ({{gstPercent}} %)"
+          value="{{calcGST.toFixed(2)}}"
+        ></ion-input>
+
+        <ion-input
+          [disabled]="true"
+          class="ion-text-right sell-indicator"
+          size="100"
+          color="primary"
+          label="{{ 'Selling Price' | translate }}"
+          value="{{ currencySymbol }} {{sellingPrice.toFixed(2)}}"
+        ></ion-input>
+
+        <ion-button
+          (click)="openSaveProductModal()"
+          class="mt-20"
+          id="open-modal"
+          expand="block"
+          >{{'Save Price' | translate}}</ion-button
+        >
+      </div>
     </div>
   </div>
-
   <div class="mt-10 p-10 flex">
     <p class="color-danger" *ngIf="!savingPercent && !gstPercent">
       {{'saving_tax_warning' | translate}}
@@ -215,7 +135,7 @@
           (click)="cancel()"
           name="close-circle-outline"
         ></ion-icon>
-        <ion-title class="ion-text-center"
+        <ion-title class="ion-text-center33"
           >{{'Product Name' | translate}}</ion-title
         >
         <ion-icon
@@ -229,10 +149,12 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item>
-        <ion-label color="primary" position="floating"
-          >{{'Enter product name' | translate}}</ion-label
-        >
-        <ion-input type="text" [(ngModel)]="productName"></ion-input>
+        <ion-input
+          class=""
+          type="text"
+          label="{{'Enter product name' | translate}}"
+          [(ngModel)]="productName"
+        ></ion-input>
       </ion-item>
     </ion-content>
   </ng-template>

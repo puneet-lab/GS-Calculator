@@ -20,5 +20,35 @@
   "OK": "OK",
   "Product saved": "Product saved",
   "Product not saved, try later": "Product not saved, try later",
-  "Product already exists": "Products exists already, please delete old product and add new or change name"
+  "Product already exists": "Products exists already, please delete old product and add new or change name",
+  "Language": "Language",
+  "Donate": "Donate",
+  "About": "About",
+  "Please Add Products": "There are currently no products available. Please add products.",
+  "Go to website": "Go to website",
+  "donate_text": {
+    "title": "🌟 Support Our App 🌟",
+    "intro": "Hello,",
+    "app_description": "We've poured our hearts and countless hours into crafting and maintaining this app.",
+    "goal": "Our goal is to continue offering this app for free, but we need your support to ensure its long-term sustainability. If you appreciate the effort we've put into crafting and maintaining this app, and if you find it valuable, please consider making a donation.",
+    "contribution": "Your contribution, no matter the amount, goes a long way in helping us maintain and improve this app. It allows us to invest in new features, enhance performance, and provide you with the best experience possible.",
+    "thanks": "Thank you for considering a donation. Your support is essential, and we are incredibly grateful for your commitment to our app's success.",
+    "signature": "With sincere gratitude,",
+    "upi_desc": "Donate securely with UPI (India) with apps like Google Pay, Phone Pe, Paytm etc",
+    "button_upi": "UPI ",
+    "card_desc": "Donate securely using any credit or debit card.",
+    "button_card": "Credit or Debit Card",
+    "upi_copied": "UPI details have been copied to your clipboard."
+  },
+  "about_text": {
+    "title": "🌟 Welcome to Our app! 🌟",
+    "intro": "We are PK Labs, and we designed this app with a simple mission in mind - to make life a little easier.",
+    "inspiration": "The inspiration for this app came from watching my father use a calculator to calcuate sell price for each item. We realized that there had to be a more efficient and user-friendly way to help him with his calculations. That's when I decided to create this app, simplifying complex and repetative tasks into just a few taps on your mobile device.",
+    "for_others": "We understand that many others out there might be in a similar situation, where they need a tool to streamline their work or day-to-day activities. That's why we've made this app available to everyone who can benefit from it.",
+    "feedback": "If you have any suggestions for new features or if you encounter any issues while using the app, please don't hesitate to get in touch with us. We value your feedback, and we here to make this app even better for you.",
+    "contact": "Feel free to contact us at our email mentioned below. Whether you have questions, feedback, or just want to say hello, We are always happy to hear from you.",
+    "thanks": "Thank you for using our app, and we hope it makes your life a little more convenient.",
+    "donate": "If you liked our app, please contact us by email to donate if you want.",
+    "regards": "Best regards,"
+  }
 }

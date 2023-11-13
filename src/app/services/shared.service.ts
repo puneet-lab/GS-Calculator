@@ -1,20 +1,20 @@
-import { Injectable } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { Storage } from "@ionic/storage-angular";
-import { TranslateService } from "@ngx-translate/core";
-import { environment } from "src/environments/environment";
+import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Storage } from '@ionic/storage-angular';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 import {
   ICalculatorPercentageSettings,
   IProduct,
   StorageKeyTypes,
-} from "../models";
+} from '../models';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class SharedService {
   constructor(private storage: Storage, private translate: TranslateService) {}
-  selectedLanguage = "";
+  selectedLanguage = '';
   defaultLanguage: string = environment.language;
 
   async setInitialAppLanguage(): Promise<void> {
@@ -48,12 +48,13 @@ export class SharedService {
         calcSettings
       );
     } catch (error) {
-      console.log("😍 ~ setCalculatorSettings", error);
+      console.log('😍 ~ setCalculatorSettings', error);
       throw new Error(error);
     }
   }
 
   async getCalculatorSettings(): Promise<ICalculatorPercentageSettings> {
+    await this.setInitialAppLanguage();
     const calcSettings = (await this.storage.get(
       StorageKeyTypes.GS_CALCULATOR_PERCENTAGE_SETTING
     )) as ICalculatorPercentageSettings;
@@ -71,7 +72,7 @@ export class SharedService {
     try {
       await this.storage.set(StorageKeyTypes.GS_CALCULATOR_PRODUCTS, products);
     } catch (error) {
-      console.error("Error in saving product", error);
+      console.error('Error in saving product', error);
       throw error;
     }
   }
@@ -81,7 +82,5 @@ export class SharedService {
     if (!controlValue) {
       formGroup.get(controlName).patchValue(null);
     }
-    const inputElement = document.getElementById(controlName) as HTMLElement;
-    inputElement.scrollIntoView({ behavior: "smooth" });
   }
 }

@@ -1,27 +1,22 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { IonModal, ModalController, ToastController } from "@ionic/angular";
-import { TranslateService } from "@ngx-translate/core";
-import { ChartOptions, ChartType } from "chart.js";
-import { isEmpty } from "lodash-es";
-import { Color, Label, MultiDataSet } from "ng2-charts";
-import { EMPTY } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { v4 as uuid } from "uuid";
-import { ProductsComponent } from "../components/products/products.component";
-import { SettingsComponent } from "../components/settings/settings.component";
-import {
-  ICalculatorFormValues,
-  ILabelColor,
-  IProduct,
-  LanguageTypes,
-} from "../models";
-import { defaultCurrency } from "../resources/currencies";
-import { SharedService } from "../services/shared.service";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { IonModal, ModalController, ToastController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
+import { isEmpty } from 'lodash-es';
+import { EMPTY } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { v4 as uuid } from 'uuid';
+import { AboutComponent } from '../components/about/about.component';
+import { ProductsComponent } from '../components/products/products.component';
+import { SettingsComponent } from '../components/settings/settings.component';
+import { ICalculatorFormValues, IProduct, LanguageTypes } from '../models';
+import { defaultCurrency } from '../resources/currencies';
+import { SharedService } from '../services/shared.service';
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"],
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
   savingPercent = 0;
@@ -39,75 +34,29 @@ export class HomePage implements OnInit {
   insurance = 0;
   productName: string;
   isProductModalOpen = false;
-  doughnutChartOptions: ChartOptions = {
-    cutoutPercentage: 70,
-    legend: {
-      display: false,
-    },
-    layout: {
-      padding: {
-        top: 10,
-        right: 10,
-        left: 10,
-        bottom: 10,
-      },
-    },
-  };
-  doughnutChartColors: Color[] = [
-    {
-      backgroundColor: [],
-    },
-  ];
-
-  doughnutDisableChartColors: Color[] = [
-    {
-      backgroundColor: ["#eeeeee"],
-    },
-  ];
-
-  doughutChartDisableValue = [100];
-
-  doughutChartDisableOption: ChartOptions = {
-    tooltips: { enabled: false },
-    hover: { mode: null },
-    cutoutPercentage: 70,
-  };
-
-  chartLabelColors: ILabelColor[] = [
-    {
-      label: this.translate.instant("Buy Price"),
-      color: "#8CC8F4",
-    },
-    {
-      label: this.translate.instant("Transport"),
-      color: "#FFA3B5",
-    },
-    {
-      label: this.translate.instant("Insurance"),
-      color: "#FFE29E",
-    },
-    {
-      label: this.translate.instant("Savings"),
-      color: "#aa00ff",
-    },
-    {
-      label: this.translate.instant("Tax"),
-      color: "#e91e63",
-    },
-  ];
-
-  public doughnutChartLabels: Label[] = [];
-  public doughnutChartData: MultiDataSet = [
-    [
-      +this.buyPrice.toFixed(2),
-      +this.transport.toFixed(2),
-      +this.insurance.toFixed(2),
-      +this.calcSaving.toFixed(2),
-      +this.calcGST.toFixed(2),
-    ],
-  ];
-  public doughnutChartType: ChartType = "doughnut";
   currencySymbol: string;
+  menuItems = [
+    {
+      title: 'Products',
+      action: this.openProductsModal.bind(this),
+      iconName: 'layers-outline',
+    },
+    {
+      title: 'Language',
+      action: this.changeLanguage.bind(this),
+      iconName: 'language-outline',
+    },
+    {
+      title: 'Settings',
+      action: this.openSettingsModal.bind(this),
+      iconName: 'cog-outline',
+    },
+    {
+      title: 'About',
+      action: this.openAboutModal.bind(this),
+      iconName: 'information-circle-outline',
+    },
+  ];
   @ViewChild(IonModal) modal: IonModal;
 
   constructor(
@@ -115,35 +64,15 @@ export class HomePage implements OnInit {
     private fb: FormBuilder,
     private translate: TranslateService,
     public sharedService: SharedService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     await this.setCalcDefaultPercent();
     this.initCalculatorForm();
     this.calculateSellingPrice();
-    this.initDoughnutChart();
-  }
-
-  initDoughnutChart(): void {
-    this.doughnutChartLabels = this.chartLabelColors.map(({ label }) => label);
-    this.doughnutChartColors = [
-      {
-        backgroundColor: this.chartLabelColors.map(({ color }) => color),
-      },
-    ];
-  }
-
-  reactiveChart(): void {
-    this.doughnutChartData = [
-      [
-        +this.buyPrice.toFixed(2),
-        +this.transport.toFixed(2),
-        +this.insurance.toFixed(2),
-        +this.calcSaving.toFixed(2),
-        +this.calcGST.toFixed(2),
-      ],
-    ];
+    // this.openDonate();
   }
 
   initCalculatorForm(): void {
@@ -187,7 +116,6 @@ export class HomePage implements OnInit {
       (this.totalPrice + this.calcSaving) *
       this.calculatePercentage(this.gstPercent);
     this.sellingPrice = this.totalPrice + this.calcSaving + this.calcGST;
-    this.reactiveChart();
   }
 
   calculatePercentage(value: number): number {
@@ -248,6 +176,11 @@ export class HomePage implements OnInit {
     void modal.present();
   }
 
+  async openAboutModal(): Promise<void> {
+    const modal = await this.modalCtrl.create({ component: AboutComponent });
+    void modal.present();
+  }
+
   resetVariables(): void {
     this.sellingPrice = 0;
     this.calcSaving = 0;
@@ -279,17 +212,17 @@ export class HomePage implements OnInit {
 
   cancel(): void {
     this.isProductModalOpen = false;
-    this.modal.dismiss(null, "cancel");
+    this.modal.dismiss(null, 'cancel');
   }
 
   confirm(): void {
     this.isProductModalOpen = false;
-    this.modal.dismiss(this.productName, "confirm");
+    this.modal.dismiss(this.productName, 'confirm');
     this.saveProduct();
   }
 
   openSaveProductModal(): void {
-    this.productName = "";
+    this.productName = '';
     this.isProductModalOpen = true;
   }
 
@@ -299,7 +232,7 @@ export class HomePage implements OnInit {
       const isProductExists = this.getProductsExists(products);
       if (isProductExists) {
         const productExistsMessage = this.translate.instant(
-          "Product already exists"
+          'Product already exists'
         );
         this.showToast(productExistsMessage);
         return;
@@ -321,11 +254,11 @@ export class HomePage implements OnInit {
       await this.sharedService.setProducts(
         products ? [...products, product] : [product]
       );
-      const message = this.translate.instant("Product saved");
+      const message = this.translate.instant('Product saved');
       await this.showToast(message);
       this.resetForm();
     } catch (error) {
-      const message = this.translate.instant("Product not saved, try later");
+      const message = this.translate.instant('Product not saved, try later');
       await this.showToast(message);
       throw error;
     }
@@ -344,8 +277,12 @@ export class HomePage implements OnInit {
     const toast = await this.toastController.create({
       message,
       duration: 2500,
-      position: "bottom",
+      position: 'bottom',
     });
     await toast.present();
+  }
+
+  openDonate(): void {
+    this.router.navigate(['/donate']);
   }
 }

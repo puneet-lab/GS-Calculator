@@ -1,4 +1,5 @@
 @use 'sass:math';
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -11,20 +12,22 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import '~@ionic/angular/css/core.css';
+@import "@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-@import '~@ionic/angular/css/normalize.css';
-@import '~@ionic/angular/css/structure.css';
-@import '~@ionic/angular/css/typography.css';
-@import '~@ionic/angular/css/display.css';
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import '@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import '~@ionic/angular/css/padding.css';
-@import '~@ionic/angular/css/float-elements.css';
-@import '~@ionic/angular/css/text-alignment.css';
-@import '~@ionic/angular/css/text-transformation.css';
-@import '~@ionic/angular/css/flex-utils.css';
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+
 
 $color-danger: #eb445a;
 $color-primary: #3880ff;
@@ -44,6 +47,12 @@ $color-warning: #ffd534;
     --padding-bottom: 15px;
     font-size: 1.1rem !important;
   }
+
+  .sell-indicator {
+    label {
+        font-size: 24px;
+    }
+  }
 }
 
 .color-white {
@@ -58,12 +67,18 @@ $color-warning: #ffd534;
   color: $color-warning;
 }
 
+
+
 .item-inner {
   border-bottom-width: 0px !important;
 }
 
 .flex {
   display: flex;
+}
+
+.grid {
+  display: grid;
 }
 
 .flex-column {
@@ -78,7 +93,7 @@ $color-warning: #ffd534;
   justify-content: space-between;
 }
 
-.justify-end {
+.justify-end {  
   justify-content: flex-end;
 }
 
@@ -93,6 +108,16 @@ $color-warning: #ffd534;
 .bg-white {
   background-color: $color-white;
 }
+
+.opacity-1 {
+    opacity: 1 !important;
+}
+
+@for $gap from 1 through 20 {
+    .gap-#{(math.div($gap * 10, 2))} {
+      gap: math.div($gap * 10px, 2)
+    }
+  }
 
 @for $fz from 1 through 20 {
   .fz-#{(math.div($fz * 10, 2))} {

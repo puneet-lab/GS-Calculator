@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar (click)="goToHome()">
+    <ion-title>{{'Donate' | translate}}</ion-title>
+    <ion-icon
+      slot="end"
+      class="fz-35 mr-10"
+      name="close-circle-outline"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="grid gap-10 mt-10">
+    <div class="mb-10 fz-20 flex justify-center">
+      {{'donate_text.title' | translate}}
+    </div>
+
+    <ion-item>
+      <ion-label class="ion-text-wrap" color="primary">
+        <div>{{'donate_text.upi_desc' | translate}}</div>
+        <ion-button expand="block" fill="outline" (click)="openUPIModal()"
+          >{{'donate_text.button_upi' | translate}}</ion-button
+        >
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="ion-text-wrap" color="primary">
+        <div>{{'donate_text.card_desc' | translate}}</div>
+        <ion-button expand="block" fill="outline" (click)="openCardModal()"
+          >{{'donate_text.button_card' | translate}}</ion-button
+        >
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <div class="m-5 p-5 ion-text ion-text-dark">
+    <div class="fz-15">
+      <div>{{'donate_text.intro' | translate}}</div>
+      <div>{{'donate_text.app_description' | translate}}</div>
+      <br />
+      <div>{{'donate_text.goal' | translate}}</div>
+      <br />
+      <div>{{'donate_text.contribution' | translate}}</div>
+      <br />
+      <div>{{'donate_text.thanks' | translate}}</div>
+      <br />
+      <div>{{'donate_text.signature' | translate}}</div>
+      <div>PK Labs</div>
+    </div>
+  </div>
+</ion-content>

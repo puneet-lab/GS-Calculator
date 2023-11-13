@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary" (click)="closeModal()">
+    <ion-title size="large">
+      {{ "About" | translate }}
+    </ion-title>
+    <ion-icon
+      slot="end"
+      class="fz-35 mr-10"
+      name="close-circle-outline"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="grid gap-10 mt-10">
+    <div class="mb-10 fz-20 flex justify-center">
+      {{ "about_text.title" | translate }}
+    </div>
+  </div>
+
+  <div class="m-5 p-5 ion-text ion-text-dark">
+    <div class="fz-15">
+      <div>{{ "about_text.intro" | translate }}</div>
+      <div>{{ "about_text.inspiration" | translate }}</div>
+      <br />
+      <div>{{ "about_text.for_others" | translate }}</div>
+      <br />
+      <div>{{ "about_text.feedback" | translate }}</div>
+      <br />
+      <div>{{ "about_text.contact" | translate }}</div>
+      <br />
+      <div>{{ "about_text.thanks" | translate }}</div>
+      <br />
+      <div>{{ "about_text.donate" | translate }}</div>
+      <br />
+      <div>{{ "about_text.regards" | translate }}</div>
+      <div>PK Labs</div>
+      <div class="grid gap-5">
+        <div class="flex gap-5 items-center">
+          <a href="mailto:{{ email }}">{{ email }}</a>
+          <ion-icon (click)="copyEmail()" name="copy-outline"></ion-icon>
+        </div>
+        <div class="flex gap-5 items-center">
+          <a href="{{ website }}">{{ "Go to website" | translate }}</a>
+          <ion-icon (click)="copyWebsite()" name="copy-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ModalController } from "@ionic/angular";
-import { isEmpty } from "lodash-es";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { isEmpty } from 'lodash-es';
 import {
   ICalculatorPercentageSettings,
   ICurrencyList,
-} from "src/app/models/app.model";
-import { allCurrencies, defaultCurrency } from "src/app/resources/currencies";
-import { SharedService } from "src/app/services/shared.service";
+} from 'src/app/models/app.model';
+import { allCurrencies, defaultCurrency } from 'src/app/resources/currencies';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
-  selector: "app-settings",
-  templateUrl: "./settings.component.html",
-  styleUrls: ["./settings.component.scss"],
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   constructor(
@@ -62,12 +62,12 @@ export class SettingsComponent implements OnInit {
     if (!isEmpty(calcSettings)) {
       Object.entries(calcSettings).forEach(([key, val]) => {
         switch (key) {
-          case "currency":
+          case 'currency':
             this.settingsForm
               ?.get(key)
               ?.patchValue(val || this.defaultCurrency);
             break;
-          case "currencySymbol":
+          case 'currencySymbol':
             this.settingsForm
               ?.get(key)
               ?.patchValue(val || this.defaultCurrencySymbol);
@@ -77,9 +77,9 @@ export class SettingsComponent implements OnInit {
             break;
         }
       });
-      this.currentCurrency = this.settingsForm.get("currency").value;
+      this.currentCurrency = this.settingsForm.get('currency').value;
       this.currentCurrencySymbol =
-        this.settingsForm.get("currencySymbol").value;
+        this.settingsForm.get('currencySymbol').value;
     }
   }
 
@@ -113,20 +113,20 @@ export class SettingsComponent implements OnInit {
       } else {
       }
     } catch (error) {
-      console.log("😍 ~ onSettingFormSubmit", error);
+      console.log('😍 ~ onSettingFormSubmit', error);
     }
   }
 
   onClickCurrency(currency: ICurrencyList) {
     this.currentCurrency = currency.code;
-    this.settingsForm.get("currency").patchValue(this.currentCurrency);
+    this.settingsForm.get('currency').patchValue(this.currentCurrency);
 
     this.currentCurrencySymbol = allCurrencies.find(
       (cur) => cur.code === this.currentCurrency
     ).symbolNative;
 
     this.settingsForm
-      .get("currencySymbol")
+      .get('currencySymbol')
       .patchValue(this.currentCurrencySymbol);
   }
 }

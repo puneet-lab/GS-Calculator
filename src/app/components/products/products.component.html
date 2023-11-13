@@ -11,106 +11,113 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-searchbar
-    (ionClear)="resetProducts()"
-    (ionChange)="searchProducts($event)"
-    [placeholder]="'Products' | translate"
-    animated="true"
-    autofocus
-  ></ion-searchbar>
+  <div *ngIf="!products?.length; else productTemplate">
+    <div class="m-5 p-5">
+      {{ "Please Add Products" | translate }}
+    </div>
+  </div>
 
-  <ion-card *ngFor="let product of products">
-    <ion-card-content>
-      <ion-row class="ion-align-items-center">
-        <ion-col class="ion-text-start fz-20">
-          {{ product.productName }}</ion-col
-        >
-        <ion-col class="ion-text-end">
-          <ion-icon
-            (click)="deleteProduct(product)"
-            class="ml-5 fz-20"
-            name="trash-outline"
-          ></ion-icon>
-          <ion-icon
-            name="chevron-forward-circle-outline"
-            *ngIf="!product.isOpen"
-            class="fz-20"
-            (click)="showProductDetails(product)"
-          ></ion-icon>
-          <ion-icon
-            name="chevron-down-circle-outline"
-            *ngIf="product.isOpen"
-            class="fz-20"
-            (click)="showProductDetails(product)"
-          ></ion-icon>
-        </ion-col>
-      </ion-row>
-
-      <ion-grid [fixed]="true" (click)="showProductDetails(product)">
-        <ion-row>
-          <ion-col class="ion-text-start">{{
-            "Buy Price" | translate
-          }}</ion-col>
+  <ng-template #productTemplate>
+    <ion-searchbar
+      (ionClear)="resetProducts()"
+      (ionChange)="searchProducts($event)"
+      [placeholder]="'Products' | translate"
+      animated="true"
+      autofocus
+    ></ion-searchbar>
+    <ion-card *ngFor="let product of products">
+      <ion-card-content>
+        <ion-row class="ion-align-items-center">
+          <ion-col class="ion-text-start fz-20">
+            {{ product.productName }}</ion-col
+          >
           <ion-col class="ion-text-end">
-            {{ product.buy_price.toFixed(2) }}</ion-col
-          >
-        </ion-row>
-
-        <ng-container *ngIf="product.isOpen">
-          <ion-row>
-            <ion-col class="ion-text-start"
-              >{{ "Savings" | translate }}
-              <span class="fz-10"
-                >({{ product.calcSettings.saving }}%)</span
-              ></ion-col
-            >
-            <ion-col class="ion-text-end">
-              {{ product.profit.toFixed(2) }}
-            </ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col class="ion-text-start"
-              >{{ "Tax" | translate }}
-              <span class="fz-10">({{ product.calcSettings.gst }}%)</span>
-            </ion-col>
-            <ion-col class="ion-text-end">
-              {{ product.tax.toFixed(2) }}</ion-col
-            >
-          </ion-row>
-
-          <ion-row>
-            <ion-col class="ion-text-start">{{
-              "Insurance" | translate
-            }}</ion-col>
-            <ion-col class="ion-text-end">
-              {{ product.insurance.toFixed(2) }}</ion-col
-            >
-          </ion-row>
-
-          <ion-row>
-            <ion-col class="ion-text-start">{{
-              "Transport" | translate
-            }}</ion-col>
-            <ion-col class="ion-text-end">
-              {{ product.transport.toFixed(2) }}</ion-col
-            >
-          </ion-row>
-        </ng-container>
-        <ion-row>
-          <ion-col class="ion-text-start">
-            <ion-label color="primary">
-              {{ "Selling Price" | translate }}
-            </ion-label>
+            <ion-icon
+              (click)="deleteProduct(product)"
+              class="ml-5 fz-20"
+              name="trash-outline"
+            ></ion-icon>
+            <ion-icon
+              name="chevron-forward-circle-outline"
+              *ngIf="!product.isOpen"
+              class="fz-20"
+              (click)="showProductDetails(product)"
+            ></ion-icon>
+            <ion-icon
+              name="chevron-down-circle-outline"
+              *ngIf="product.isOpen"
+              class="fz-20"
+              (click)="showProductDetails(product)"
+            ></ion-icon>
           </ion-col>
-          <ion-col color="primary" class="ion-text-end">
-            <ion-label color="primary">
-              {{ product.calcSettings.currencySymbol }}
-              {{ product.sellingPrice.toFixed(2) }}
-            </ion-label></ion-col
-          >
         </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+
+        <ion-grid [fixed]="true" (click)="showProductDetails(product)">
+          <ion-row>
+            <ion-col class="ion-text-start">{{
+              "Buy Price" | translate
+            }}</ion-col>
+            <ion-col class="ion-text-end">
+              {{ product.buy_price.toFixed(2) }}</ion-col
+            >
+          </ion-row>
+
+          <ng-container *ngIf="product.isOpen">
+            <ion-row>
+              <ion-col class="ion-text-start"
+                >{{ "Savings" | translate }}
+                <span class="fz-10"
+                  >({{ product.calcSettings.saving }}%)</span
+                ></ion-col
+              >
+              <ion-col class="ion-text-end">
+                {{ product.profit.toFixed(2) }}
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col class="ion-text-start"
+                >{{ "Tax" | translate }}
+                <span class="fz-10">({{ product.calcSettings.gst }}%)</span>
+              </ion-col>
+              <ion-col class="ion-text-end">
+                {{ product.tax.toFixed(2) }}</ion-col
+              >
+            </ion-row>
+
+            <ion-row>
+              <ion-col class="ion-text-start">{{
+                "Insurance" | translate
+              }}</ion-col>
+              <ion-col class="ion-text-end">
+                {{ product.insurance.toFixed(2) }}</ion-col
+              >
+            </ion-row>
+
+            <ion-row>
+              <ion-col class="ion-text-start">{{
+                "Transport" | translate
+              }}</ion-col>
+              <ion-col class="ion-text-end">
+                {{ product.transport.toFixed(2) }}</ion-col
+              >
+            </ion-row>
+          </ng-container>
+          <ion-row>
+            <ion-col class="ion-text-start">
+              <ion-label color="primary">
+                {{ "Selling Price" | translate }}
+              </ion-label>
+            </ion-col>
+            <ion-col color="primary" class="ion-text-end">
+              <ion-label color="primary">
+                {{ product.calcSettings.currencySymbol }}
+                {{ product.sellingPrice.toFixed(2) }}
+              </ion-label></ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
 </ion-content>
